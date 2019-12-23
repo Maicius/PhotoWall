@@ -1,0 +1,1 @@
+var image_json = [{"small": "http://www.xiaomaidong.com/fuyuko/images/small/0.jpg", "small_width": 540, "small_height": 360, "middle": "http://www.xiaomaidong.com/fuyuko/images/middle/0.jpg", "middle_width": 1920, "middle_height": 1280, "name": "0.jpg", "desc": "", "type": "", "id": "0.jpg"}]
