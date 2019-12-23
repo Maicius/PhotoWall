@@ -2,12 +2,8 @@ from PIL import Image
 import numpy as np
 import os
 import json
-import platform
-import re
 from copy import deepcopy
-
 import util
-
 
 class ConvertImage(object):
     def __init__(self, debug=False):
@@ -99,6 +95,8 @@ class ConvertImage(object):
         image_info_dict = util.read_info(self.debug)
         if new_path == None:
             new_path = path
+
+        # 有二级目录的情况
         if cls == 2:
             try:
                 file_list = util.get_file_list(path)
@@ -122,9 +120,9 @@ class ConvertImage(object):
                 print("转换照片出错, 请检查填写的文件路径")
                 print("目前是二级菜单模式，")
                 print("即输入路径的路径下面的二级目录才是照片文件，一级目录表示照片的分类")
-                print("如需切换到一级菜单模式，请重启软件")
+                print("如需切换到二级目录模式，请重启软件")
                 raise e
-
+        # 只有一级目录的情况
         if cls == 1:
             try:
                 img_list = util.get_file_list(path)
@@ -141,20 +139,19 @@ class ConvertImage(object):
                         self.image_json.append(image_info)
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
-                print("目前是二级菜单模式，")
-                print("即输入路径的路径下面的二级目录才是照片文件，一级目录表示照片的分类")
-                print("如需切换到一级菜单模式，请重启软件")
+                print("目前是一级菜单模式，")
+                print("即输入路径的路径下就是照片文件，不存在二级目录")
+                print("如需切换到二级目录模式，请重启软件")
                 raise e
 
         self.image_json = list(sorted(self.image_json, key=lambda x: x['id']))
-
         image_js = "var image_json = " + json.dumps(self.image_json)
         # 结果保存为js文件
         with open('image_json.js', 'w', encoding='utf-8') as w:
             w.write(image_js)
 
 if __name__ == '__main__':
-    file_path = "/Users/maicius/Pictures/2018宝宝"
+    file_path = ""
     new_path = ""
     ci = ConvertImage()
     ci.do_convert_image(file_path, cls=1)
