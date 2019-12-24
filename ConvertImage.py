@@ -8,9 +8,6 @@ from tqdm import tqdm
 
 class ConvertImage(object):
     def __init__(self, debug=False):
-        """
-        :param file_path: 照片所在文件路径，注意这个路径下面的二级目录才是照片文件，一级目录表示照片的分类
-        """
         # 保存照片信息的json数组
         self.image_json = []
         # 用于网页加载图片的url地址
@@ -55,7 +52,8 @@ class ConvertImage(object):
                     if util.DAYS_KEY in info_dict:
                         util.print_repeat("日期")
                     self.parse_days(info_n, info_dict)
-
+                elif info_n[0] == util.MID_KEY:
+                    info_dict['page_title'] = info_n[1]
                 elif info_n[0].startswith(util.PARTS_KEY):
                     img_type = info_n[0][4:]
                     info_dict['part'].append(dict(part_id=img_type, part_title=info_n[1], part_desc=info_n[2]))
@@ -201,6 +199,7 @@ class ConvertImage(object):
         image_info_json['part'] = image_info_dict['part']
         image_info_json['days_back'] = image_info_dict['days_back']
         image_info_json['days'] = image_info_dict['days']
+        image_info_json['page_title'] = image_info_dict['page_title']
         return image_info_json
 
     def do_convert_image(self, path, image_info = "photo_info.txt", new_path=None, cls=1):

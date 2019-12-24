@@ -7,7 +7,7 @@ TITLE_KEY = "TITLE"
 BACK_KEY = "BACK"
 DAYS_KEY = "DAYS"
 PARTS_KEY = "PART"
-
+MID_KEY = "MID"
 def print_warning(info):
     print(warning_begin)
     print("警告:照片信息填写格式不符合规范！**可能**会导致照片信息加载出错！")
