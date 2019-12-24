@@ -28,7 +28,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1><a class="navbar-brand brand_title" href="#">小麦冬</a></h1>
+                        <h1><a class="navbar-brand brand_title" href="#">{{web_title}}</a></h1>
                     </div>
 
                 </nav>
@@ -39,7 +39,7 @@
 </div>
 <!--//banner-->
 <!--counter-->
-<div class="days-coming">
+<div class="days-coming" ms-visible="@days != ''">
     <div class="container">
         <h3 class="title tittle">WE HAVE BEEN TOGETHER</h3>
         <div class="timer_wrap">
@@ -51,59 +51,20 @@
     </div>
 </div>
 <div class="wrapper">
-    <span class="span_text">2015.11.09 - 2016.11.09</span>
-    <section>
-        <div ms-for="img in @img_1_list" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
-             ms-mouseleave="@hide_photo_desc(img)"
-             ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
-            <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
-            <img :attr="{src: img.small, alt: img.desc}" class="img">
-            <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
-                <h4 class="desc_text">{{img.name}}</h4>
-                <p class="desc_text">{{img.desc}}</p></div>
-        </div>
-    </section>
-
-    <span class="span_text">2016.11.09 - 2017.11.09</span>
-    <section>
-        <div ms-for="img in @img_2_list" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
-             ms-mouseleave="@hide_photo_desc(img)"
-             ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
-            <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
-            <img :attr="{src: img.small, alt: img.desc}" class="img">
-            <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
-                <h4 class="desc_text">{{img.name}}</h4>
-                <p class="desc_text">{{img.desc}}</p></div>
-        </div>
-    </section>
-
-    <span class="span_text">2017.11.09 - 2018.11.09</span>
-    <section>
-        <div ms-for="img in @img_3_list" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
-             ms-mouseleave="@hide_photo_desc(img)"
-             ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
-            <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
-            <img :attr="{src: img.small, alt: img.desc}" class="img">
-            <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
-                <h4 class="desc_text">{{img.name}}</h4>
-                <p class="desc_text">{{img.desc}}</p></div>
-        </div>
-    </section>
-
-    <span class="span_text">2018.11.09 - now</span>
-    <section>
-        <div ms-for="img in @img_4_list" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
-             ms-mouseleave="@hide_photo_desc(img)"
-             ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
-            <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
-            <img :attr="{src: img.small, alt: img.desc, title: img.desc}" class="img">
-            <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
-                <h4 class="desc_text">{{img.name}}</h4>
-                <p class="desc_text">{{img.desc}}</p>
+    <!--ms-for: part_info in @image_json-->
+        <span class="span_text">{{part_info.part_title}}</span>
+        <section>
+            <div ms-for="img in part_info['photo_info']" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
+                 ms-mouseleave="@hide_photo_desc(img)"
+                 ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
+                <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
+                <img :attr="{src: img.small, alt: img.desc}" class="img">
+                <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
+                    <h4 class="desc_text">{{img.name}}</h4>
+                    <p class="desc_text">{{img.desc}}</p></div>
             </div>
-        </div>
-
-    </section>
+        </section>
+    <!--ms-for-end:-->
 
     <div class="myModal" id="middle_picture" title="双击可以退出大图模式">
         <div ms-visible="@load_image == true" class="load_img" id="load_img">
@@ -137,7 +98,8 @@
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <!-- //js  working-->
 <script src="https://cdn.bootcss.com/avalon.js/2.2.7/avalon.min.js"></script>
-<script src="assets/js/image_json.js"></script>
+<script src="image_json.js"></script>
+
 <script src="assets/js/script.js"></script>
 
 </body>
