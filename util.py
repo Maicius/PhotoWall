@@ -16,7 +16,7 @@ def print_warning(info):
 
 def print_title_warning(info):
     print(warning_begin)
-    print("配置文件的标题行填写格式不正确")
+    print("照片信息文件的标题行填写格式不正确")
     print(info)
     print("请严格按照一下格式填写：")
     print("title#网页标题#副标题")
@@ -24,7 +24,7 @@ def print_title_warning(info):
 
 def print_back_warning(info):
     print(warning_begin)
-    print("配置文件的背景图片行填写格式不正确")
+    print("照片信息文件的背景图片行填写格式不正确")
     print(info)
 
 def print_repeat(type):
@@ -34,7 +34,7 @@ def print_repeat(type):
 
 def print_days_warning(info):
     print(warning_begin)
-    print("配置文件的日期行填写不正确")
+    print("照片信息文件的日期行填写不正确")
     print(info)
     print("请严格按照以下格式填写：")
     print("DAYS#照片文件名#日期（用/作分割）")
