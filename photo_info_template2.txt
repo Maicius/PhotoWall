@@ -6,4 +6,4 @@ BACK#back_1.png#back2.png#back_3.png
 //针对情侣用的天数计时，非情侣请去掉该行
 DAYS#back_5.png#2015/11/09
 0.jpg#Test Title#Test Description 测试描述
-1.jpg#测试标题#我也不知道该写点啥
+1.jpg#测试标题#测试照片描述

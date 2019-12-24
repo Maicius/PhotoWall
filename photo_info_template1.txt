@@ -12,6 +12,3 @@ PART1#2015.11.09-2016.11.09#相遇
 PART2#2016.11.09-2017.11.09#相识
 0.jpg#Test Title#Test Description 测试描述
 1.jpg#Test Title#
-PART3#2017.11.09-2018.11.09#相知
-0.jpg#Test Title#Test Description 测试描述
-1.jpg#Test Title#hello world
