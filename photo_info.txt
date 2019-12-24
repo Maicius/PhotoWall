@@ -5,8 +5,8 @@ TITLE#小麦冬#不会骑车的摄影师不是好的程序员
 BACK#image/back/back_1.png#image/back/back_2.png#image/back/back_3.png
 //用于显示在网页正中间的大字
 MID#2019年度影集
-//针对情侣用的天数计时，非情侣请去掉该行
-DAYS#back_5.png#2015/11/09
+//针对情侣用的天数计时，非情侣请去掉该行，该背景最好保持比例为宽高比为2.5:1
+DAYS#image/back/back_5.png#2015/11/09
 //第一部分，可无限添加
 PART1#2015.11.09-2016.11.09#相遇
 0.jpg#Test Title#Test Description 测试描述
