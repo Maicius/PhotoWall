@@ -98,12 +98,6 @@ ul {
 
 /*--header start here--*/
 
-.banner {
-    background: url(../images/back_2.png) no-repeat center;
-    background-size: cover;
-    min-height: 100vh !important;
-}
-
 /*-- header --*/
 /*-- nav --*/
 .header-bar {
@@ -510,11 +504,7 @@ h6 a {
 /*-- //Slider --*/
 /*-- //banner --*/
 /*-- counter timer --*/
-.days-coming {
-    background: url(../images/back_5.png) no-repeat center;
-    background-size: cover;
-    height: 450px !important;
-}
+
 
 /*--timer--*/
 #counter {

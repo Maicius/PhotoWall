@@ -9,9 +9,11 @@ var vm = avalon.define({
     web_title: '',
     sub_title: '',
     page_title: '2019年度影集',
+    days_back: '',
     imageLayout: function () {
         vm.back_imgs = image_json.back;
         vm.start_date = image_json.days;
+        vm.days_back = image_json.days_back;
         vm.web_title = image_json.title;
         vm.sub_title = image_json.sub_title;
         vm.image_json = image_json.photos;
@@ -37,8 +39,8 @@ var vm = avalon.define({
             var img_dom = $('#middle_image');
             vm.load_image = false;
             if (img.small_height > img.small_width) {
-                img_dom.css('margin-left',  $(window).width() / 6 + 'px');
-                img_dom.animate({height: img.middle_height * 0.6 + 'px'},200);
+                img_dom.css('margin-left', $(window).width() / 6 + 'px');
+                img_dom.animate({height: img.middle_height * 0.6 + 'px'}, 200);
                 img_dom.animate({width: img.middle_width * 0.6 + 'px'}, 200);
             } else {
                 img_dom.css('margin-left', '0');
@@ -67,6 +69,7 @@ $(document).ready(function () {
 
     vm.imageLayout();
     init_background(0);
+    init_days_background();
     var index = 1;
     setInterval(function () {
         init_background(index);
@@ -76,13 +79,14 @@ $(document).ready(function () {
         }
     }, 60000);
 
-    setInterval(function () {
-        var days = get_days();
-        console.log(days);
-        $('#count_day').html(days + '<p class="days">days</p>')
-    }, 60000);
+    if (vm.start_date !== "") {
+        setInterval(function () {
+            var days = get_days();
+            console.log(days);
+            $('#count_day').html(days + '<p class="days">days</p>')
 
-    $('#count_day').html(get_days() + '<p class="days">days</p>');
+        }, 60000);
+    }
     $(document).dblclick(function () {
         var pic = $('#middle_picture');
         pic.fadeOut({
@@ -98,6 +102,11 @@ $(document).ready(function () {
 function init_background(index) {
     var attr = "url('" + vm.back_imgs[index] + "')";
     $('.banner').css("backgroundImage", attr);
+}
+
+function init_days_background() {
+    var attr = "url('" + vm.days_back + "')";
+    $('.days-coming').css("backgroundImage", attr);
 }
 
 function hide_image() {
