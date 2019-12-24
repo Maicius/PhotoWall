@@ -38,7 +38,13 @@ class ConvertImageTest(unittest.TestCase):
 
     def test_do_convert_image(self):
         image_dir = "resource/image/"
-        self.ci.do_convert_image(image_dir, new_path="resource")
+        self.ci.do_convert_image(image_dir, new_path="resource/", cls=1)
+
+    def test_do_convert_image_cls2(self):
+        file_path = "/Users/maicius/Pictures/2018宝宝"
+        new_path = "image/"
+        ci = ConvertImage(debug=True)
+        ci.do_convert_image(file_path, new_path=new_path, cls=2)
 
 if __name__ =='__main__':
     unittest.main()

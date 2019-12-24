@@ -4,6 +4,7 @@ import os
 import json
 from copy import deepcopy
 import util
+from tqdm import tqdm
 
 class ConvertImage(object):
     def __init__(self, debug=False):
@@ -158,7 +159,7 @@ class ConvertImage(object):
         image_info['type'] = type
         # 唯一区分照片的id，默认文件名，以后用作照片的网页dom的id
         image_info['id'] = type + image_name
-        print(image_name, ' process finish')
+        # print(image_name, ' process finish')
         return image_info
 
     def get_small_shape(self, shape):
@@ -215,8 +216,9 @@ class ConvertImage(object):
         if cls == 2:
             try:
                 file_list = util.get_file_list(path)
+                file_list = list(sorted(file_list))
                 for files in file_list:
-
+                    old_img_dir = os.path.join(path, files)
                     img_dir = os.path.join(new_path, files)
                     # 转换后的图片保存的位置
                     small_path = os.path.join(img_dir, 'small')
@@ -224,14 +226,21 @@ class ConvertImage(object):
                     small_url = self.request_base_dir + files + '/small'
                     middle_url = self.request_base_dir + files + '/middle'
                     type = files
-                    img_list = util.get_file_list(img_dir)
+                    self.image_json[type] = []
+                    img_list = util.get_file_list(old_img_dir)
                     img_list = sorted(list(img_list))
+                    img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
+                    print("处理文件夹:" + files + "...")
+                    # 进度条
+                    pbar = tqdm(total=len(img_list))
                     for image_name in img_list:
-                        if util.check_image_file_name(image_name):
-                            image = Image.open(os.path.join(img_dir, image_name))
-                            image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path, small_url,
-                                                             middle_url, type)
-                            self.image_json[type].append(image_info)
+                        image = Image.open(os.path.join(old_img_dir, image_name))
+                        image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path, small_url,
+                                                        middle_url, type)
+                        self.image_json[type].append(image_info)
+                        pbar.update(1)
+                    pbar.close()
+
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
                 print("目前是二级菜单模式，")
@@ -250,13 +259,16 @@ class ConvertImage(object):
                 type = "0"
                 self.image_json[type] = []
                 img_list = sorted(list(img_list))
+                img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
+                pbar = tqdm(total=len(img_list))
                 for image_name in img_list:
-                    if util.check_image_file_name(image_name):
-                        image = Image.open(os.path.join(path, image_name))
-                        image_info = self.resize_picture(image, image_name,image_info_dict, small_path, middle_path, small_url,
-                                                             middle_url, type)
-                        self.image_json[type].append(image_info)
 
+                    image = Image.open(os.path.join(path, image_name))
+                    image_info = self.resize_picture(image, image_name,image_info_dict, small_path, middle_path, small_url,
+                                                    middle_url, type)
+                    self.image_json[type].append(image_info)
+                    pbar.update(1)
+                pbar.close()
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
                 print("目前是一级菜单模式，")
@@ -270,7 +282,4 @@ class ConvertImage(object):
             w.write(image_js)
 
 if __name__ == '__main__':
-    file_path = ""
-    new_path = ""
-    ci = ConvertImage()
-    ci.do_convert_image(file_path, cls=1)
+    pass
