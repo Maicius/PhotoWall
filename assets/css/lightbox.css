@@ -192,7 +192,7 @@ body:after {
   width: 30px;
   height: 30px;
   margin-top: 1.5em;
-  background: url(../images/close.png) top right no-repeat;
+  background: url(../images/Closed.png) top right no-repeat;
   text-align: right;
   outline: none;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
