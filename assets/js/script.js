@@ -25,7 +25,13 @@ var vm = avalon.define({
         console.log($(window).width());
         if ($(window).width() > 720) {
             vm.show_image_url = "";
-            var win_height = $(window).scrollTop() - $(window).height() - 450;
+            var win_height;
+            if (vm.start_date !== "") {
+                win_height = $(window).scrollTop() - $(window).height() - 450;
+            }
+            else{
+                win_height = $(window).scrollTop() - $(window).height() + 50;
+            }
             vm.show_image_url = img.middle;
             vm.middle_image_desc = img.desc;
             vm.middle_image_name = img.name;
@@ -44,9 +50,13 @@ var vm = avalon.define({
                 img_dom.animate({width: img.middle_width * 0.6 + 'px'}, 200);
             } else {
                 img_dom.css('margin-left', '0');
-                img_dom.animate({height: img.middle_height * 0.85 + 'px'}, 200);
-                img_dom.animate({width: img.middle_width * 0.85}, 200);
+                var new_width = $(window).width() * 0.65;
+                img_dom.animate({width: new_width}, 200);
+                img_dom.animate({height: img.middle_height * new_width / img.middle_width + 'px'}, 200);
             }
+            // 避免鼠标焦点聚集在大图上造成图片上出现蓝色的阴影
+            // 这个bug困扰了我很久，没想到最终可以这么简单的解决
+            $('#middle_desc_text').click();
         }
     },
     show_photo_desc: function (img) {
