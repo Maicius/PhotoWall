@@ -212,6 +212,7 @@ class ConvertImage(object):
         if new_path == None:
             new_path = path
         self.image_json = self.copy_info_from_image_dict(image_info_dict)
+        self.image_json['photos'] = []
         # 有二级目录的情况
         if cls == 2:
             try:
@@ -226,20 +227,28 @@ class ConvertImage(object):
                     small_url = self.request_base_dir + files + '/small'
                     middle_url = self.request_base_dir + files + '/middle'
                     type = files
-                    self.image_json[type] = []
                     img_list = util.get_file_list(old_img_dir)
                     img_list = sorted(list(img_list))
                     img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                     print("处理文件夹:" + files + "...")
                     # 进度条
                     pbar = tqdm(total=len(img_list))
+                    image_info_list = []
                     for image_name in img_list:
                         image = Image.open(os.path.join(old_img_dir, image_name))
                         image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path, small_url,
                                                         middle_url, type)
-                        self.image_json[type].append(image_info)
+                        image_info_list.append(image_info)
                         pbar.update(1)
                     pbar.close()
+                    part_info = list(filter(lambda x: x['part_id'] == files, image_info_dict['part']))
+                    if len(part_info) > 0:
+                        part_title = part_info[0]['part_title']
+                        part_desc = part_info[0]['part_desc']
+                    else:
+                        part_title = files
+                        part_desc = ""
+                    self.image_json['photos'].append(dict(part_id=type, part_desc=part_desc, part_title=part_title, photo_info=image_info_list))
 
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
@@ -257,18 +266,18 @@ class ConvertImage(object):
                 small_url = self.request_base_dir + 'small'
                 middle_url = self.request_base_dir + 'middle'
                 type = "0"
-                self.image_json[type] = []
                 img_list = sorted(list(img_list))
                 img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                 pbar = tqdm(total=len(img_list))
+                image_info_list = []
                 for image_name in img_list:
-
                     image = Image.open(os.path.join(path, image_name))
                     image_info = self.resize_picture(image, image_name,image_info_dict, small_path, middle_path, small_url,
                                                     middle_url, type)
-                    self.image_json[type].append(image_info)
+                    image_info_list.append(image_info)
                     pbar.update(1)
                 pbar.close()
+                self.image_json['photos'].append(dict(part_id=type, photo_info=image_info_list))
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
                 print("目前是一级菜单模式，")
