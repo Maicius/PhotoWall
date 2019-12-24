@@ -7,9 +7,9 @@ var image_json = {
         "part_title": "2016.11.09-2017.11.09",
         "part_desc": "相识"
     }],
-    "days_back": "back_5.png",
+    "days_back": "image/back/back_5.png",
     "days": "2015/11/09",
-    "page_title": "2019年度影集",
+    "page_title": "我的2019年度影集",
     "photos": [{
         "part_id": "1",
         "part_desc": "相遇",

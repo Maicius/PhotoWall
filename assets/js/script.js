@@ -18,17 +18,17 @@ var vm = avalon.define({
         vm.page_title = image_json.page_title;
     },
 
+    //单击展示大图
     show_middle_image: function (img) {
         console.log($(window).width());
         if ($(window).width() > 720) {
             vm.show_image_url = "";
-
             var win_height = $(window).scrollTop() - $(window).height() - 450;
             vm.show_image_url = img.middle;
             vm.middle_image_desc = img.desc;
             vm.middle_image_name = img.name;
             var pic = $('#middle_picture');
-            console.log("win:", win_height);
+            //console.log("win:", win_height);
             pic.fadeIn({
                 duration: 500
             });
@@ -38,12 +38,12 @@ var vm = avalon.define({
             vm.load_image = false;
             if (img.small_height > img.small_width) {
                 img_dom.css('margin-left',  $(window).width() / 6 + 'px');
-                img_dom.animate({height: img.middle_height * 0.6 + 'px'});
-                img_dom.animate({width: img.middle_width * 0.6 + 'px'});
+                img_dom.animate({height: img.middle_height * 0.6 + 'px'},200);
+                img_dom.animate({width: img.middle_width * 0.6 + 'px'}, 200);
             } else {
                 img_dom.css('margin-left', '0');
-                img_dom.css('height', 'auto');
-                img_dom.css('width: 80%');
+                img_dom.animate({height: img.middle_height * 0.85 + 'px'}, 200);
+                img_dom.animate({width: img.middle_width * 0.85}, 200);
             }
         }
     },
@@ -74,13 +74,13 @@ $(document).ready(function () {
         if (index >= vm.back_imgs.length) {
             index = 0;
         }
-    }, 6000);
+    }, 60000);
 
     setInterval(function () {
         var days = get_days();
         console.log(days);
         $('#count_day').html(days + '<p class="days">days</p>')
-    }, 6000);
+    }, 60000);
 
     $('#count_day').html(get_days() + '<p class="days">days</p>');
     $(document).dblclick(function () {
