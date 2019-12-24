@@ -55,6 +55,7 @@ var vm = avalon.define({
                 img_dom.animate({width: new_width}, 200);
                 img_dom.animate({height: img.middle_height * new_width / img.middle_width + 'px'}, 200);
             }
+            $('#middle_desc_text')[0].focus();
         }
     },
     show_photo_desc: function (img) {

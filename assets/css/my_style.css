@@ -110,7 +110,7 @@ i {
     height: auto;
     position: absolute;
     display: block;
-
+    outline: none;
 }
 
 .middle_image {
@@ -136,6 +136,7 @@ i {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     display: inline-block;
     background: rgba(0, 0, 0, 0.6);
+    outline: none;
 }
 
 .load_img {
@@ -186,8 +187,15 @@ i {
     background-size: cover;
     height: 450px !important;
 }
+
 .banner {
     background: url(../../image/back/back_1.png) no-repeat center;
     background-size: cover;
     min-height: 100vh !important;
+}
+
+* {
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
 }
