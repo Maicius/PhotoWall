@@ -2,8 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>小麦冬-不会骑车的摄影师不是好的程序猿</title>
-
+    <title>小麦冬-年度影集</title>
     <!--meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,24 +20,21 @@
             <div class="header-bar">
                 <nav class="navbar navbar-default">
                     <div class="navbar-header navbar-left">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
                         <h1><a class="navbar-brand brand_title" href="#">{{web_title}}</a></h1>
                     </div>
-
+                    <div class="navbar-right">
+                        <span class="sub_title">{{sub_title}}</span>
+                    </div>
                 </nav>
             </div>
             <div class="clearfix"></div>
+
         </div>
     </div>
+    <div class="mid_title">
+        <h1 class="page_title">{{page_title}} </h1>
+    </div>
 </div>
-<!--//banner-->
-<!--counter-->
 <div class="days-coming" ms-visible="@days != ''">
     <div class="container">
         <h3 class="title tittle">WE HAVE BEEN TOGETHER</h3>
@@ -52,20 +48,20 @@
 </div>
 <div class="wrapper">
     <!--ms-for: part_info in @image_json-->
-        <span class="span_text">{{part_info.part_title}}</span>
-        <section>
-            <div ms-for="img in part_info['photo_info']" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
-                 ms-mouseleave="@hide_photo_desc(img)"
-                 ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
-                <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
-                <img :attr="{src: img.small, alt: img.desc}" class="img">
-                <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
-                    <h4 class="desc_text">{{img.name}}</h4>
-                    <p class="desc_text">{{img.desc}}</p></div>
+    <span class="span_text">{{part_info.part_title}}</span>
+    <section>
+        <div ms-for="img in part_info['photo_info']" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
+             ms-mouseleave="@hide_photo_desc(img)"
+             ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
+            <i ms-css="{paddingBottom: img.small_height / img.small_width * 100 + '%'}"></i>
+            <img :attr="{src: img.small, alt: img.desc}" class="img">
+            <div ms-visible="@img.show_desc == true" class="photo_desc" :attr="{id: img.id + 'desc'}">
+                <h4 class="desc_text">{{img.name}}</h4>
+                <p class="desc_text">{{img.desc}}</p>
             </div>
-        </section>
+        </div>
+    </section>
     <!--ms-for-end:-->
-
     <div class="myModal" id="middle_picture" title="双击可以退出大图模式">
         <div ms-visible="@load_image == true" class="load_img" id="load_img">
             <img src="assets/images/loading.gif" class="load_image">
@@ -76,6 +72,9 @@
             <p class="middle_desc_text">{{middle_image_desc}}</p>
         </div>
     </div>
+    <nav class="navbar navbar-fixed-bottom" role="navigation">
+        <div class="container-fluid">我是一段内容</div>
+    </nav>
 </div>
 
 <!--booststrap-->

@@ -1,28 +1,21 @@
 var vm = avalon.define({
     $id: 'fuyuko',
-    img_list: [],
-    img_1_list: [],
-    img_2_list: [],
-    img_3_list: [],
-    img_4_list: [],
     show_image_url: '',
     middle_image_name: '',
     middle_image_desc: '',
     start_date: '',
     load_image: false,
     image_json: {},
+    web_title: '',
+    sub_title: '',
+    page_title: '2019年度影集',
     imageLayout: function () {
+        vm.back_imgs = image_json.back;
         vm.start_date = image_json.days;
         vm.web_title = image_json.title;
         vm.sub_title = image_json.sub_title;
         vm.image_json = image_json.photos;
-        // vm.image_json['photos'].forEach(function (photo_list) {
-        //     photo_list['photo_info'].forEach(function (photo) {
-        //         photo['flex'] = photo.small_width * 200 / photo.small_height;
-        //         photo['show_desc'] = false;
-        //
-        //     })
-        // })
+        vm.page_title = image_json.page_title;
     },
 
     show_middle_image: function (img) {
@@ -71,25 +64,25 @@ $(document).ready(function () {
     $('#middle_picture').fadeOut({
         duration: 10
     });
+
+    vm.imageLayout();
+    init_background(0);
     var index = 1;
     setInterval(function () {
-        var attr = "url('http://www.xiaomaidong.com/fuyuko/images/back_" + index + ".png')";
-        console.log(attr);
-        $('.banner').css("backgroundImage", attr);
+        init_background(index);
         index += 1;
-        if (index > 4) {
-            index = 1;
+        if (index >= vm.back_imgs.length) {
+            index = 0;
         }
-    }, 60000);
-    $('#count_day').html(get_days() + '<p class="days">days</p>');
+    }, 6000);
+
     setInterval(function () {
         var days = get_days();
         console.log(days);
         $('#count_day').html(days + '<p class="days">days</p>')
-    }, 60000);
+    }, 6000);
 
-    vm.imageLayout();
-
+    $('#count_day').html(get_days() + '<p class="days">days</p>');
     $(document).dblclick(function () {
         var pic = $('#middle_picture');
         pic.fadeOut({
@@ -101,6 +94,11 @@ $(document).ready(function () {
     }
 
 });
+
+function init_background(index) {
+    var attr = "url('" + vm.back_imgs[index] + "')";
+    $('.banner').css("backgroundImage", attr);
+}
 
 function hide_image() {
     var pic = $('#middle_picture');
