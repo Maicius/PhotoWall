@@ -21,7 +21,7 @@
 
 @media screen and (max-width: 1200px) {
     .page_title {
-        font-size: 57.2px;
+        font-size: 47.2px;
         line-height: 67.28px;
     }
 }
@@ -175,3 +175,8 @@ i {
     text-align: center;
 }
 
+.nav_footer {
+    background-color: #edf1ef;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

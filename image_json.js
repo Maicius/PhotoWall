@@ -1,7 +1,7 @@
 var image_json = {
     "title": "小麦冬",
     "sub_title": "不会骑车的摄影师不是好的程序员",
-    "back": ["back_1.png", "back2.png", "back_3.png"],
+    "back": ["image/back/back_1.png", "image/back/back_2.png", "image/back/back_3.png"],
     "part": [{"part_id": "1", "part_title": "2015.11.09-2016.11.09", "part_desc": "相遇"}, {
         "part_id": "2",
         "part_title": "2016.11.09-2017.11.09",
@@ -9,6 +9,7 @@ var image_json = {
     }],
     "days_back": "back_5.png",
     "days": "2015/11/09",
+    "page_title": "2019年度影集",
     "photos": [{
         "part_id": "1",
         "part_desc": "相遇",
