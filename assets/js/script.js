@@ -8,22 +8,21 @@ var vm = avalon.define({
     show_image_url: '',
     middle_image_name: '',
     middle_image_desc: '',
+    start_date: '',
     load_image: false,
+    image_json: {},
     imageLayout: function () {
-        image_json.forEach(function (item) {
-            //console.log(item);
-            item['flex'] = item.small_width * 200 / item.small_height;
-            item['show_desc'] = false;
-            if (item.type === "1") {
-                vm.img_1_list.push(item);
-            } else if (item.type === '2') {
-                vm.img_2_list.push(item);
-            } else if (item.type === '3') {
-                vm.img_3_list.push(item);
-            } else if (item.type === '4') {
-                vm.img_4_list.push(item);
-            }
-        })
+        vm.start_date = image_json.days;
+        vm.web_title = image_json.title;
+        vm.sub_title = image_json.sub_title;
+        vm.image_json = image_json.photos;
+        // vm.image_json['photos'].forEach(function (photo_list) {
+        //     photo_list['photo_info'].forEach(function (photo) {
+        //         photo['flex'] = photo.small_width * 200 / photo.small_height;
+        //         photo['show_desc'] = false;
+        //
+        //     })
+        // })
     },
 
     show_middle_image: function (img) {
@@ -103,7 +102,6 @@ $(document).ready(function () {
 
 });
 
-
 function hide_image() {
     var pic = $('#middle_picture');
     pic.fadeOut({
@@ -112,7 +110,7 @@ function hide_image() {
 }
 
 function get_days() {
-    var begin = new Date("2015/11/09");
+    var begin = new Date(vm.start_date);
     var s2 = new Date();
     return ((s2.getTime() - begin.getTime()) / (1000 * 60 * 60 * 24)).toFixed(0);
 }

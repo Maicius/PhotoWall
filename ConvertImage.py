@@ -15,7 +15,7 @@ class ConvertImage(object):
         self.image_json = []
         # 用于网页加载图片的url地址
         # 这里也可以用相对地址，不加域名
-        self.request_base_dir = 'http://www.xiaomaidong.com/fuyuko/images/'
+        self.request_base_dir = 'image/'
         self.small_url = ''
         self.middle_url = ''
         self.debug = debug
@@ -160,6 +160,9 @@ class ConvertImage(object):
         # 唯一区分照片的id，默认文件名，以后用作照片的网页dom的id
         image_info['id'] = type + image_name
         # print(image_name, ' process finish')
+        # flex将用于照片对齐
+        image_info['flex'] = image_info['small_width'] * 200 / image_info['small_height']
+        image_info['show_desc'] = False
         return image_info
 
     def get_small_shape(self, shape):
