@@ -2,43 +2,46 @@ import os
 import re
 import platform
 
-def read_info(debug=False):
-    with open("photo_info.txt", "r", encoding="utf-8") as r:
-        infos = r.readlines()
-    info_dict = {}
-    if len(infos) == 0:
-        print("无额外照片信息，将直接进行照片转换")
-        return info_dict
-    else:
-        print("发现额外照片信息，将进行解析...")
-    for info in infos:
-        try:
-            info_n = info.split("#")
-            if len(info_n) != 3:
-                print_warning(info)
-            elif not check_image_file_name(info_n[0]):
-                print_warning(info)
-                print("照片文件名必须带有后缀，支持以下格式的文件：")
-                print("jpg|png|JPG|jpeg|JPEG|PNG|bmp|BMP")
-                continue
-            info_n = list(map(lambda x: x.strip(), info_n))
-            if info_n[1] == '':
-                info_n[1] = info_n[0].split('.')[0]
-            info_dict[info_n[0]] = dict(title=info_n[1], desc=info_n[2])
-        except BaseException as e:
-            if debug:
-                raise e
-            print_warning(info)
-    print("照片信息解析完成，共得到" + str(len(info_dict.items())) + "条照片信息")
-    return info_dict
+warning_begin = "警告=================="
+TITLE_KEY = "TITLE"
+BACK_KEY = "BACK"
+DAYS_KEY = "DAYS"
+PARTS_KEY = "PART"
 
 def print_warning(info):
-    print("警告==================")
+    print(warning_begin)
     print("警告:照片信息填写格式不符合规范！**可能**会导致照片信息加载出错！")
     print("不规范的文件行：", info)
+    print("请严格按照配置文件填写：")
+
+def print_title_warning(info):
+    print(warning_begin)
+    print("配置文件的标题行填写格式不正确")
+    print(info)
+    print("请严格按照一下格式填写：")
+    print("title#网页标题#副标题")
+    print("title#小麦冬#详情请戳:www.xiaomaidong.com")
+
+def print_back_warning(info):
+    print(warning_begin)
+    print("配置文件的背景图片行填写格式不正确")
+    print(info)
+
+def print_repeat(type):
+    print(warning_begin)
+    print(type + "行存在重复，请仔细检查配置文件")
+    print("程序继续执行，将会覆盖旧" + type)
+
+def print_days_warning(info):
+    print(warning_begin)
+    print("配置文件的日期行填写不正确")
+    print(info)
     print("请严格按照以下格式填写：")
-    print("照片文件名#照片标题#照片描述")
-    print("示例：0.jpg#小麦冬#详情请戳:www.xiaomaidong.com")
+    print("DAYS#照片文件名#日期（用/作分割）")
+    print("DAYS#back.png#2015/11/09")
+
+def check_date(date):
+    return re.match('^[0-9]{4}/[0-9]{2}/[0-9]{2}$', date) != None
 
 def check_file_exist(path):
     if not os.path.exists(path):

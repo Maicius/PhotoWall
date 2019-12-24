@@ -21,7 +21,7 @@ class ConvertImageTest(unittest.TestCase):
         assert res5 == False
 
     def test_read_config(self):
-        infos = util.read_info()
+        infos = self.ci.read_info()
         assert type(infos) == dict
         print(infos)
 

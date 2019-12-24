@@ -19,6 +19,105 @@ class ConvertImage(object):
         self.middle_url = ''
         self.debug = debug
 
+    def read_info(self, debug=False):
+        with open("photo_info.txt", "r", encoding="utf-8") as r:
+            infos = r.readlines()
+        info_dict = {}
+        if len(infos) == 0:
+            print("无额外照片信息，将直接进行照片转换")
+            info_dict['title'] = "小麦冬"
+            info_dict['sub_title'] = "xiaomaidong.com"
+            return info_dict
+        else:
+            print("发现额外照片信息，将进行解析...")
+        info_dict[util.PARTS_KEY] = []
+        img_type = 0
+        for info in infos:
+            try:
+                # 跳过注释
+                info = info.strip()
+                if info.startswith("//"):
+                    continue
+                info_n = info.split("#")
+                # 作为标题解析
+                if info_n[0] == util.TITLE_KEY:
+                    if util.TITLE_KEY in info_dict:
+                        util.print_repeat("标题")
+                    self.parse_title(info_n, info_dict)
+
+                elif info_n[0] == util.BACK_KEY:
+                    if util.BACK_KEY in info_dict:
+                        util.print_repeat("背景图片")
+                    self.parse_back_img(info_n[1:], info_dict)
+
+                elif info_n[0] == util.DAYS_KEY:
+                    if util.DAYS_KEY in info_dict:
+                        util.print_repeat("日期")
+                    self.parse_days(info_n, info_dict)
+                elif info_n[0].startswith(util.PARTS_KEY):
+                    img_type = info_n[0]
+                    info_dict[util.PARTS_KEY].append(dict(part_title=info_n[1], part_desc=info_n[2]))
+
+                elif util.check_image_file_name(info_n[0]):
+                    info_n = list(map(lambda x: x.strip(), info_n))
+                    if info_n[1] == '':
+                        info_n[1] = info_n[0].split('.')[0]
+                    info_dict[img_type + info_n[0]] = dict(title=info_n[1], desc=info_n[2], type=img_type)
+                else:
+                    util.print_warning(info)
+                    print("注意照片文件名必须带有后缀，支持以下格式的文件：")
+                    print("jpg|png|JPG|jpeg|JPEG|PNG|bmp|BMP")
+
+            except BaseException as e:
+                if debug:
+                    raise e
+                util.print_warning(info)
+        print("照片信息解析完成")
+        return info_dict
+
+    def parse_title(self, title, info_dict):
+        """
+        解析标题行
+        :param title:
+        :return:
+        """
+        try:
+            info_dict['title'] = title[1]
+            info_dict['sub_title'] = title[2]
+        except BaseException:
+            util.print_title_warning(title)
+            print("程序将使用小麦冬作为默认标题")
+            info_dict['title'] = "小麦冬"
+            info_dict['sub_title'] = "xiaomaidong.com"
+
+    def parse_days(self, info, info_dict):
+        """
+        解析日期行
+        :param info:
+        :param info_dict:
+        :return:
+        """
+        try:
+            info_dict['days_back'] = info[1]
+            if util.check_date(info[2]):
+                info_dict['days'] = info[2]
+            else:
+                raise RuntimeError
+        except BaseException:
+            util.print_days_warning(info)
+
+    def parse_back_img(self, info, info_dict):
+        """
+        解析背景图片行
+        :param info:
+        :param info_dict:
+        :return:
+        """
+        try:
+            info_dict['back'] = info
+        except BaseException:
+            util.print_back_warning(info)
+
     def resize_picture(self, image, image_name, small_path="", middle_path="", small_url="", middle_url="", type="", image_info_dict=""):
         image_info = {}
         shape = np.shape(image)
