@@ -3,6 +3,7 @@ from PIL import Image
 import os
 from ConvertImage import ConvertImage
 import util
+import json
 class ConvertImageTest(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -21,14 +22,18 @@ class ConvertImageTest(unittest.TestCase):
         assert res5 == False
 
     def test_read_config(self):
-        infos = self.ci.read_info()
+        config_file = "photo_info_template1.txt"
+        infos = self.ci.read_info(config_file, debug=True)
         assert type(infos) == dict
         print(infos)
+        with open("info.json", 'w', encoding="utf-8") as w:
+            json.dump(infos, w, ensure_ascii=False)
 
     def test_resize_image(self):
         image_name = "0.jpg"
         image = Image.open(os.path.join("", "resource/image/" + image_name))
-        image_info = self.ci.resize_picture(image, image_name, "small", "middle")
+        image_info = {}
+        image_info = self.ci.resize_picture(image, image_name, image_info, "small", "middle")
         print(image_info)
 
     def test_do_convert_image(self):
