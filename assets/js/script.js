@@ -114,8 +114,7 @@ function hide_image() {
 function get_days() {
     var begin = new Date("2015/11/09");
     var s2 = new Date();
-    var days = ((s2.getTime() - begin.getTime()) / (1000 * 60 * 60 * 24)).toFixed(0);
-    return days;
+    return ((s2.getTime() - begin.getTime()) / (1000 * 60 * 60 * 24)).toFixed(0);
 }
 
 
