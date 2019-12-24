@@ -264,7 +264,6 @@ class ConvertImage(object):
                 print("如需切换到二级目录模式，请重启软件")
                 if self.debug:
                     raise e
-
         image_js = "var image_json = " + json.dumps(self.image_json, ensure_ascii=False) + ";"
         # 结果保存为js文件
         with open('image_json.js', 'w', encoding='utf-8') as w:
