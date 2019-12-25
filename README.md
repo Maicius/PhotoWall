@@ -6,10 +6,10 @@
 ### 效果图
 
 - 主页，可通过配置文件添加标题
-![](./resource/image/main_page.png)
+![](./resource/image/main_page.jpg)
 
 - 照片墙，无论照片比例差别多大，都能自动实现对齐
-![](./resource/image/page.png)
+![](./resource/image/page.jpg)
 
 - 点击图片查看大图，照片标题、描述可通过配置文件添加
-![](./resource/image/middle.png)
+![](./resource/image/middle.jpg)
