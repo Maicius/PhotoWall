@@ -1,16 +1,14 @@
 //照片信息模板，二级目录，即照片有分类
 //符号#为分隔符，正文填写中请勿出现该符号
-TITLE#小麦冬#不会骑车的摄影师不是好的程序员
+TITLE#小麦冬#不会骑车的摄影师不是好的程序猿
 //背景大照片，用于循环播放，建议4张左右
-BACK#image/back/back_1.png#image/back/back_2.png#image/back/back_3.png
+BACK#image/back/back_1.jpg#image/back/back_2.jpg#image/back/back_3.jpg#image/back/back_4.jpg
 //用于显示在网页正中间的大字
-MID#2019年度影集
-//针对情侣用的天数计时，非情侣请去掉该行，该背景最好保持比例为宽高比为2.5:1
-DAYS#image/back/back_5.png#2015/11/09
+MID#小麦冬的照片墙
 //第一部分，可无限添加
-PART1#2015.11.09-2016.11.09#相遇
+PART骑行#骑行#
 0.jpg#Test Title#Test Description 测试描述
 1.jpg#测试标题#我也不知道该写点啥
-PART2#2016.11.09-2017.11.09#相识
+PART其它#其它#随手拍
 0.jpg#Test Title#Test Description 测试描述
 1.jpg#Test Title#
