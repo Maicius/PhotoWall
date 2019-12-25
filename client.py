@@ -1,4 +1,4 @@
-from ConvertImage import ConvertImage
+from src.ConvertImage import ConvertImage
 
 if __name__=='__main__':
     print("*******************照片转换程序***********************")
