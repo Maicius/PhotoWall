@@ -48,7 +48,10 @@
 </div>
 <div class="wrapper">
     <!--ms-for: part_info in @image_json-->
-    <span class="span_text">{{part_info.part_title}}</span>
+    <div class="span_text">
+        <span class="part_title">{{part_info.part_title}}</span>
+        <span class="part_desc">{{part_info.part_desc}}</span>
+    </div>
     <section>
         <div ms-for="img in part_info['photo_info']" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
              ms-mouseleave="@hide_photo_desc(img)"
@@ -76,7 +79,7 @@
 </div>
     <hr class="featurette-divider nav_footer">
     <footer>
-        <p> 小麦冬(xiaomaidong.com)&copy; 2019</p>
+        <p><a href="#"> 小麦冬(xiaomaidong.com)&copy; 2019</a></p>
     </footer>
 
 <!--booststrap-->
@@ -102,7 +105,6 @@
 <script src="image_json.js"></script>
 
 <script src="assets/js/script.js"></script>
-
 </body>
 
 </html>

@@ -97,12 +97,24 @@ i {
     overflow: hidden;
 }
 
+.part_title {
+    font-size: 26px;
+    color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-shadow: 2px 2px 2px #000;
+}
+.part_desc {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
 .span_text {
-    font-size: 32px;
     color: black;
     font-family: 'Great Vibes', cursive;
-    text-align: center;
+
     display: block;
+    text-align: center;
+
 }
 
 .myModal {
