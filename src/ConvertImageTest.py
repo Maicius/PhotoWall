@@ -1,8 +1,8 @@
 import unittest
 from PIL import Image
 import os
-from ConvertImage import ConvertImage
-import util
+from src.ConvertImage import ConvertImage
+from src import util
 import json
 class ConvertImageTest(unittest.TestCase):
 

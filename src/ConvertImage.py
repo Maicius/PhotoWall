@@ -3,7 +3,7 @@ import numpy as np
 import os
 import json
 from copy import deepcopy
-import util
+from src import util
 from tqdm import tqdm
 import re
 
@@ -165,7 +165,6 @@ class ConvertImage(object):
             image_info['name'] = image_info_dict[image_key]['title']
             image_info['desc'] = image_info_dict[image_key]['desc']
         else:
-
             image_title, image_desc = util.split_image_name(image_name)
             image_info['desc'] = image_desc
             image_info['name'] = image_title
@@ -358,8 +357,12 @@ class ConvertImage(object):
                     image_info_list.append(image_info)
                     pbar.update(1)
                 pbar.close()
+                if len(dir_list) > 0:
+                    part_title = 'others'
+                else:
+                    part_title = ''
                 self.image_json['photos'].append(
-                    dict(part_id=type, photo_info=image_info_list, part_title="others", part_desc=""))
+                    dict(part_id=type, photo_info=image_info_list, part_title=part_title, part_desc=""))
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
                 if self.debug:
