@@ -224,7 +224,7 @@ class ConvertImage(object):
 
     def sort_file(self, file_list):
         file_list = list(sorted(file_list))
-        index = 0
+        index = -1
         for i, file in enumerate(file_list):
             try:
                 file = int(file.split('.')[0])
@@ -236,6 +236,17 @@ class ConvertImage(object):
         pre_file = sorted(file_list[:index], key=lambda x: int(x.split('.')[0]))
         pre_file.extend(last_file)
         return pre_file
+
+    def auto_judge_cls(self, path):
+        file_list = util.get_file_list(path)
+        img_list = []
+        dir_list = []
+        for file in file_list:
+            if util.check_image_file_name(file):
+                img_list.append(file)
+            if os.path.isdir(os.path.join(path, file)):
+                dir_list.append(file)
+        return img_list, dir_list
 
     def do_convert_image(self, path, image_info="photo_info.txt", new_path=None, cls=1):
         """
@@ -266,10 +277,12 @@ class ConvertImage(object):
         if len(back_img_list) > 0:
             self.process_background(back_img_list)
             print("背景图片压缩完成")
+
+        root_img_list, dir_list = self.auto_judge_cls(path)
         # 有二级目录的情况
-        if cls == 2:
+        if len(dir_list) > 0:
             try:
-                file_list = util.get_file_list(path)
+                file_list = dir_list
                 file_list = list(sorted(file_list))
                 for files in file_list:
                     old_img_dir = os.path.join(path, files)
@@ -308,20 +321,18 @@ class ConvertImage(object):
 
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
-                print("目前是二级菜单模式，")
-                print("即输入路径的路径下面的二级目录才是照片文件，一级目录表示照片的分类")
-                print("如需切换到二级目录模式，请重启软件")
                 if self.debug:
                     raise e
-        # 只有一级目录的情况
-        if cls == 1:
+        # 一级目录的情况
+        if len(root_img_list) > 0:
             try:
-                img_list = util.get_file_list(path)
+                print("处理根目录...")
+                img_list = root_img_list
+                type = "root"
                 small_path = os.path.join(new_path, 'small')
                 middle_path = os.path.join(new_path, 'middle')
                 small_url = self.request_base_dir + 'small'
                 middle_url = self.request_base_dir + 'middle'
-                type = "0"
                 img_list = self.sort_file(img_list)
                 img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                 pbar = tqdm(total=len(img_list))
@@ -334,19 +345,15 @@ class ConvertImage(object):
                     image_info_list.append(image_info)
                     pbar.update(1)
                 pbar.close()
-                self.image_json['photos'].append(dict(part_id=type, photo_info=image_info_list))
+                self.image_json['photos'].append(dict(part_id=type, photo_info=image_info_list, part_title="others", part_desc=""))
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
-                print("目前是一级菜单模式，")
-                print("即输入路径的路径下就是照片文件，不存在二级目录")
-                print("如需切换到二级目录模式，请重启软件")
                 if self.debug:
                     raise e
         image_js = "var image_json = " + json.dumps(self.image_json, ensure_ascii=False) + ";"
         # 结果保存为js文件
         with open('image_json.js', 'w', encoding='utf-8') as w:
             w.write(image_js)
-
 
 if __name__ == '__main__':
     pass
