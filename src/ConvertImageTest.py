@@ -5,7 +5,6 @@ from src.ConvertImage import ConvertImage
 from src import util
 import json
 class ConvertImageTest(unittest.TestCase):
-
     def setUp(self) -> None:
         self.ci = ConvertImage()
 
@@ -31,7 +30,7 @@ class ConvertImageTest(unittest.TestCase):
 
     def test_resize_image(self):
         image_name = "0.jpg"
-        image = Image.open(os.path.join("", "resource/image/" + image_name))
+        image = Image.open(os.path.join("resource/image/", image_name))
         image_info = {}
         image_info = self.ci.resize_picture(image, image_name, image_info, "small", "middle")
         print(image_info)

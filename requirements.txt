@@ -1,13 +1,2 @@
-altgraph==0.16.1
-certifi==2019.11.28
-macholib==1.11
-mkl-fft==1.0.15
-mkl-random==1.1.0
-mkl-service==2.3.0
-numpy==1.17.4
-olefile==0.46
 Pillow==6.2.1
-pycrypto==2.6.1
-PyInstaller==3.5
-six==1.13.0
 tqdm==4.40.2

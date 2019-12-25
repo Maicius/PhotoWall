@@ -58,10 +58,13 @@ def check_image_file_name(name):
 def get_file_list(path):
     waste_file = '.DS_Store'
     file_list = os.listdir(path)
+    reserve_file = ['middle', 'small']
     # 删除MacOS中带的垃圾文件夹
     if platform.system() == 'Darwin' and waste_file in file_list:
         file_list.remove(waste_file)
-
+    for file in reserve_file:
+        if file in file_list:
+            file_list.remove(file)
     return file_list
 
 def split_image_name(name):

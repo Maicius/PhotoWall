@@ -1,5 +1,4 @@
 from PIL import Image
-import numpy as np
 import os
 import json
 from copy import deepcopy
@@ -125,7 +124,8 @@ class ConvertImage(object):
         for img in back_img_list:
             try:
                 image = Image.open(img)
-                shape = np.shape(image)
+
+                shape = (image.height, image.width)
                 middle_shape = self.get_middle_shape(shape)
                 image.thumbnail(middle_shape)
                 image.save(img)
@@ -136,7 +136,7 @@ class ConvertImage(object):
                        middle_url="", type=""):
         image_info = {}
         image_key = type + image_name
-        shape = np.shape(image)
+        shape = (image.height, image.width)
         util.check_file_exist(small_path)
         util.check_file_exist(middle_path)
         small_image = deepcopy(image)
@@ -180,8 +180,8 @@ class ConvertImage(object):
         return image_info
 
     def get_small_shape(self, shape):
-        width = shape[1]
         height = shape[0]
+        width = shape[1]
         # 针对单反拍的照片，分辨率通常在5000以上
         if width >= 5000:
             return (width // 10, height // 10)
@@ -195,8 +195,8 @@ class ConvertImage(object):
             return (width // 3, height // 3)
 
     def get_middle_shape(self, shape):
-        width = shape[1]
         height = shape[0]
+        width = shape[1]
 
         if width > height:
             new_width = 1920
