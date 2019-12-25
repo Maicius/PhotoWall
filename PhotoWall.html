@@ -3,13 +3,11 @@
 
 <head>
     <title>小麦冬-年度影集</title>
-    <!--meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content=""/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <!--//meta tags ends here-->
 </head>
 
 <body ms-controller="fuyuko">
@@ -48,7 +46,7 @@
 </div>
 <div class="wrapper">
     <!--ms-for: part_info in @image_json-->
-    <div class="span_text">
+    <div class="span_text" ms-visible="part_info['photo_info'].length > 0">
         <span class="part_title">{{part_info.part_title}}</span>
         <span class="part_desc">{{part_info.part_desc}}</span>
     </div>

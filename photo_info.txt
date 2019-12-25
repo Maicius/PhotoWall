@@ -2,7 +2,7 @@
 //符号#为分隔符，正文填写中请勿出现该符号
 TITLE#小麦冬#不会骑车的摄影师不是好的程序猿
 //背景大照片，用于循环播放，建议4张左右
-BACK#image/back/back_1.jpg#image/back/back_2.jpg#image/back/back_3.jpg#image/back/back_4.jpg
+BACK#back/back_1.jpg#back/back_2.jpg#back/back_3.jpg#back/back_4.jpg
 //用于显示在网页正中间的大字
 MID#小麦冬的照片墙
 //第一部分，可无限添加

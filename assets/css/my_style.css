@@ -196,13 +196,13 @@ i {
 }
 
 .days-coming {
-    background: url(../../image/back/back_4.png) no-repeat center;
+    background: url(../../back/back/back_4.png) no-repeat center;
     background-size: cover;
     height: 450px !important;
 }
 
 .banner {
-    background: url(../../image/back/back_1.png) no-repeat center;
+    background: url(../../back/back/back_1.png) no-repeat center;
     background-size: cover;
     min-height: 100vh !important;
 }
