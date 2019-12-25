@@ -26,10 +26,9 @@ var vm = avalon.define({
         if ($(window).width() > 720) {
             vm.show_image_url = "";
             var win_height;
-            if (vm.start_date !== "") {
+            if (vm.start_date && vm.start_date !== "") {
                 win_height = $(window).scrollTop() - $(window).height() - 450;
-            }
-            else{
+            } else {
                 win_height = $(window).scrollTop() - $(window).height() + 50;
             }
             vm.show_image_url = img.middle;
@@ -87,13 +86,10 @@ $(document).ready(function () {
             index = 0;
         }
     }, 60000);
-
-    if (vm.start_date !== "") {
+    if (vm.start_date && vm.start_date !== "") {
+        init_start_date();
         setInterval(function () {
-            var days = get_days();
-            console.log(days);
-            $('#count_day').html(days + '<p class="days">days</p>')
-
+            init_start_date();
         }, 60000);
     }
     $(document).dblclick(function () {
@@ -131,6 +127,11 @@ function get_days() {
     return ((s2.getTime() - begin.getTime()) / (1000 * 60 * 60 * 24)).toFixed(0);
 }
 
+function init_start_date() {
+    var days = get_days();
+    console.log(days);
+    $('#count_day').html(days + '<p class="days">days</p>');
+}
 
 
 
