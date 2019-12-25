@@ -41,7 +41,7 @@ class ConvertImageTest(unittest.TestCase):
         self.ci.do_convert_image(image_dir, new_path="resource/", cls=1)
 
     def test_do_convert_image_cls2(self):
-        file_path = "/Users/maicius/Pictures/2018宝宝"
+        file_path = "/Users/maicius/照片/photo"
         new_path = "image/"
         ci = ConvertImage(debug=True)
         ci.do_convert_image(file_path, new_path=new_path, cls=2)

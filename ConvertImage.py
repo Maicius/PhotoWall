@@ -215,10 +215,27 @@ class ConvertImage(object):
         image_info_json['sub_title'] = image_info_dict['sub_title']
         image_info_json['back'] = image_info_dict['back']
         image_info_json['part'] = image_info_dict['part']
-        image_info_json['days_back'] = image_info_dict['days_back']
-        image_info_json['days'] = image_info_dict['days']
+        if 'days_back' in image_info_dict:
+            image_info_json['days_back'] = image_info_dict['days_back']
+        if 'days' in image_info_dict:
+            image_info_json['days'] = image_info_dict['days']
         image_info_json['page_title'] = image_info_dict['page_title']
         return image_info_json
+
+    def sort_file(self, file_list):
+        file_list = list(sorted(file_list))
+        index = 0
+        for i, file in enumerate(file_list):
+            try:
+                file = int(file.split('.')[0])
+                index = i
+            except:
+                break
+        index += 1
+        last_file = file_list[index:]
+        pre_file = sorted(file_list[:index], key=lambda x: int(x.split('.')[0]))
+        pre_file.extend(last_file)
+        return pre_file
 
     def do_convert_image(self, path, image_info="photo_info.txt", new_path=None, cls=1):
         """
@@ -240,10 +257,11 @@ class ConvertImage(object):
             default_back = list(map(lambda x: self.request_base_dir + x,
                                     ["/back/back_1.jpg", "/back/back_2.jpg", "/back/back_3.jpg", "/back/back_4.jpg"]))
             self.image_json['back'] = default_back
-        if len(image_info_dict['days_back']) == 0:
-            self.image_json['days_back'] = self.request_base_dir + "/back/days.jpg"
-        else:
-            back_img_list.append(image_info_dict['days_back'])
+        if 'days_back' in image_info_dict:
+            if  len(image_info_dict['days_back']) == 0:
+                self.image_json['days_back'] = self.request_base_dir + "/back/days.jpg"
+            else:
+                back_img_list.append(image_info_dict['days_back'])
 
         if len(back_img_list) > 0:
             self.process_background(back_img_list)
@@ -263,7 +281,7 @@ class ConvertImage(object):
                     middle_url = self.request_base_dir + files + '/middle'
                     type = files
                     img_list = util.get_file_list(old_img_dir)
-                    img_list = sorted(list(img_list))
+                    img_list = self.sort_file(img_list)
                     img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                     print("处理文件夹:" + files + "...")
                     # 进度条
@@ -284,6 +302,7 @@ class ConvertImage(object):
                     else:
                         part_title = files
                         part_desc = ""
+
                     self.image_json['photos'].append(
                         dict(part_id=type, part_desc=part_desc, part_title=part_title, photo_info=image_info_list))
 
@@ -303,7 +322,7 @@ class ConvertImage(object):
                 small_url = self.request_base_dir + 'small'
                 middle_url = self.request_base_dir + 'middle'
                 type = "0"
-                img_list = sorted(list(img_list))
+                img_list = self.sort_file(img_list)
                 img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                 pbar = tqdm(total=len(img_list))
                 image_info_list = []
