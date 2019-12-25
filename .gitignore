@@ -95,4 +95,5 @@ _trial_temp
 !resource/image/*
 !back_*\.jpg
 !days.jpg
-
+*.exe
+entry
