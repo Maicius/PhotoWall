@@ -2,7 +2,7 @@ from PIL import Image
 import os
 import json
 from copy import deepcopy
-from src import util
+import util
 from tqdm import tqdm
 import re
 
@@ -251,7 +251,7 @@ class ConvertImage(object):
                 dir_list.append(file)
         return img_list, dir_list
 
-    def do_convert_image(self, path, image_info="photo_info.txt", new_path=None, request_base_dir="image/"):
+    def do_convert_image(self, path, photo_info="photo_info.txt", new_path=None, request_base_dir=""):
         """
         批量转换照片
         :param path: 原始照片地址
@@ -260,29 +260,49 @@ class ConvertImage(object):
         """
 
         # 需要添加的照片信息
-        image_info_dict = self.read_info(image_info, self.debug)
+        image_info_dict = self.read_info(photo_info, self.debug)
         if new_path == None or len(new_path) == 0:
             new_path = 'image/'
 
-        # 用于网页加载图片的url地址
-        # 这里也可以用相对地址，不加域名
-        self.request_base_dir = request_base_dir
-        if len(self.request_base_dir) == 0:
-            self.request_base_dir = new_path
         self.image_json = self.copy_info_from_image_dict(image_info_dict)
         self.image_json['photos'] = []
         # 检查背景图片
         back_img_list = image_info_dict['back']
         # 若用户未提供背景图片，使用默认背景图片
         if len(back_img_list) == 0:
-            default_back = list(map(lambda x: os.path.join(self.request_base_dir, x),
+            default_back = list(map(lambda x: os.path.join(request_base_dir, x),
                                     ["/back/back_1.jpg", "/back/back_2.jpg", "/back/back_3.jpg", "/back/back_4.jpg"]))
             self.image_json['back'] = default_back
         if 'days_back' in image_info_dict:
             if len(image_info_dict['days_back']) == 0:
-                self.image_json['days_back'] = os.path.join(self.request_base_dir, "/back/days.jpg")
+                self.image_json['days_back'] = os.path.join(request_base_dir, "/back/days.jpg")
             else:
                 back_img_list.append(image_info_dict['days_back'])
+
+        # 如果new_path 是绝对路径，就将request_base_dir赋值为它
+        if len(request_base_dir) == 0 and os.path.isabs(new_path):
+            request_base_dir = new_path
+
+        elif len(request_base_dir) > 0 and os.path.isabs(new_path):
+            print(util.warning_begin)
+            print("当请求路径(request_dir)不为空时，result_dir 不可以为绝对地址")
+            print("请将result_dir修改为当前路径下的子文件夹")
+            print("请重新输入result_dir路径，按Enter将使用image/作为结果路径")
+            new_path = input()
+            if new_path.strip() == '':
+                new_path = 'image/'
+            request_base_dir = os.path.join(request_base_dir, new_path)
+
+        elif len(request_base_dir) != 0 and not util.check_url_ip(request_base_dir) and request_base_dir != new_path:
+            print(util.warning_begin)
+            print("请求路径(request_dir)似乎不是一个网址或ip")
+            print("这种情况下它必须为空或者于结果地址(result_dir)相同")
+            request_base_dir = new_path
+        elif request_base_dir == new_path:
+            pass
+        else:
+
+            request_base_dir = os.path.join(request_base_dir, new_path)
 
         if len(back_img_list) > 0:
             self.process_background(back_img_list)
@@ -300,7 +320,7 @@ class ConvertImage(object):
                     # 转换后的图片保存的位置
                     small_path = os.path.join(img_dir, 'small')
                     middle_path = os.path.join(img_dir, 'middle')
-                    temp = os.path.join(self.request_base_dir, files)
+                    temp = os.path.join(request_base_dir, files)
                     small_url = os.path.join(temp, 'small')
                     middle_url = os.path.join(temp, 'middle')
                     type = files
@@ -343,8 +363,8 @@ class ConvertImage(object):
                 type = "root"
                 small_path = os.path.join(new_path, 'small')
                 middle_path = os.path.join(new_path, 'middle')
-                small_url = os.path.join(self.request_base_dir, 'small')
-                middle_url = os.path.join(self.request_base_dir, 'middle')
+                small_url = os.path.join(request_base_dir, 'small')
+                middle_url = os.path.join(request_base_dir, 'middle')
                 img_list = self.sort_file(img_list)
                 img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                 pbar = tqdm(total=len(img_list))

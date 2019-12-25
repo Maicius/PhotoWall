@@ -1,12 +1,12 @@
 import unittest
 from PIL import Image
 import os
-from src.ConvertImage import ConvertImage
-from src import util
+from ConvertImage import ConvertImage
+import util
 import json
 class ConvertImageTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.ci = ConvertImage()
+        self.ci = ConvertImage(debug=True)
 
     def test_check_image_file_name(self):
         res1 = util.check_image_file_name("1.jpg")
@@ -21,7 +21,7 @@ class ConvertImageTest(unittest.TestCase):
         assert res5 == False
 
     def test_read_config(self):
-        config_file = "photo_info_template1.txt"
+        config_file = "resource/photo_info_template1.txt"
         infos = self.ci.read_info(config_file, debug=True)
         assert type(infos) == dict
         print(infos)
@@ -36,8 +36,8 @@ class ConvertImageTest(unittest.TestCase):
         print(image_info)
 
     def test_do_convert_image(self):
-        image_dir = "resource/image/"
-        self.ci.do_convert_image(image_dir, new_path="resource/")
+        image_dir = "image/"
+        self.ci.do_convert_image(image_dir, new_path="image/", photo_info="photo_info.txt")
 
     def test_do_convert_image_cls2(self):
         file_path = "/Users/maicius/照片/photo"
@@ -65,6 +65,15 @@ class ConvertImageTest(unittest.TestCase):
         assert res4 == '川藏线' and res41 == ''
         assert res5 == '123' and res51 == ''
         assert res6 == 'test' and res61 == 'desc'
+
+    def test_check_url_ip(self):
+        str1 = 'image/'
+        str2 = 'app.xiaomaidong.com'
+        str3 = '192.168.1.1'
+        res1 = util.check_url_ip(str1)
+        res2 = util.check_url_ip(str2)
+        res3 = util.check_url_ip(str3)
+        assert res1 == False and res2 == True and res3 == True
 
 if __name__ =='__main__':
     unittest.main()

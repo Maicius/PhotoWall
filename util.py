@@ -82,3 +82,7 @@ def split_image_name(name):
         image_desc = ''
     return image_name, image_desc
 
+def check_url_ip(url):
+    res = re.findall('\.', url)
+    return len(res) > 0
+
