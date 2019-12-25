@@ -28,6 +28,8 @@
 	支持的图片格式有：
 	
 	> jpg、png、JPG、jpeg、JPEG、PNG、bmp、BMP
+	
+	如要添加大量描述，可在photo_info.txt中进行配置
 
 - 2.照片位置
 	
@@ -37,6 +39,15 @@
 	
 	image目录下每个子文件夹将被作为一个分类，该分类的标题就是该子文件夹的名字。请不要使用small和middle命名文件夹，因为这处理结果将保存在该文件夹下。
 	
+	分类的标题和子标题可以在photo_info.txt中进行配置
+
+### 启动程序
+
+- 1.压缩照片
+	
+	python entry.py
+	
+- 2.使用浏览器打开 photoWall.html
 
 ### 效果图
 
