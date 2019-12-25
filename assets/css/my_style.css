@@ -122,6 +122,7 @@ i {
     border-radius: 25px;
     background-color: violet;
     float: left;
+    user-select: none;
 }
 
 .middle_image_desc {
