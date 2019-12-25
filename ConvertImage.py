@@ -6,6 +6,7 @@ from copy import deepcopy
 import util
 from tqdm import tqdm
 
+
 class ConvertImage(object):
     def __init__(self, debug=False):
         # 保存照片信息的json数组
@@ -17,7 +18,7 @@ class ConvertImage(object):
         self.middle_url = ''
         self.debug = debug
 
-    def read_info(self, config_file = "photo_info.txt", debug=False):
+    def read_info(self, config_file="photo_info.txt", debug=False):
         with open(config_file, "r", encoding="utf-8") as r:
             infos = r.readlines()
         info_dict = {}
@@ -116,9 +117,26 @@ class ConvertImage(object):
         try:
             info_dict['back'] = info
         except BaseException:
-            util.print_back_warning(info)
+            util.print_back_warning2(info)
 
-    def resize_picture(self, image, image_name, image_info_dict, small_path="", middle_path="", small_url="", middle_url="", type=""):
+    def process_background(self, back_img_list):
+        """
+        压缩背景图片
+        :param back_img_list:
+        :return:
+        """
+        for img in back_img_list:
+            try:
+                image = Image.open(img)
+                shape = np.shape(image)
+                middle_shape = self.get_middle_shape(shape)
+                image.thumbnail(middle_shape)
+                image.save(img)
+            except FileNotFoundError:
+                util.print_back_warning(img)
+
+    def resize_picture(self, image, image_name, image_info_dict, small_path="", middle_path="", small_url="",
+                       middle_url="", type=""):
         image_info = {}
         image_key = type + image_name
         shape = np.shape(image)
@@ -202,7 +220,7 @@ class ConvertImage(object):
         image_info_json['page_title'] = image_info_dict['page_title']
         return image_info_json
 
-    def do_convert_image(self, path, image_info = "photo_info.txt", new_path=None, cls=1):
+    def do_convert_image(self, path, image_info="photo_info.txt", new_path=None, cls=1):
         """
         批量转换照片
         :param path: 原始照片地址
@@ -215,6 +233,21 @@ class ConvertImage(object):
             new_path = path
         self.image_json = self.copy_info_from_image_dict(image_info_dict)
         self.image_json['photos'] = []
+        # 检查背景图片
+        back_img_list = image_info_dict['back']
+        # 若用户未提供背景图片，使用默认背景图片
+        if len(back_img_list) == 0:
+            default_back = list(map(lambda x: self.request_base_dir + x,
+                                    ["/back/back_1.jpg", "/back/back_2.jpg", "/back/back_3.jpg", "/back/back_4.jpg"]))
+            self.image_json['back'] = default_back
+        if len(image_info_dict['days_back']) == 0:
+            self.image_json['days_back'] = self.request_base_dir + "/back/days.jpg"
+        else:
+            back_img_list.append(image_info_dict['days_back'])
+
+        if len(back_img_list) > 0:
+            self.process_background(back_img_list)
+            print("背景图片压缩完成")
         # 有二级目录的情况
         if cls == 2:
             try:
@@ -238,8 +271,9 @@ class ConvertImage(object):
                     image_info_list = []
                     for image_name in img_list:
                         image = Image.open(os.path.join(old_img_dir, image_name))
-                        image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path, small_url,
-                                                        middle_url, type)
+                        image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
+                                                         small_url,
+                                                         middle_url, type)
                         image_info_list.append(image_info)
                         pbar.update(1)
                     pbar.close()
@@ -250,7 +284,8 @@ class ConvertImage(object):
                     else:
                         part_title = files
                         part_desc = ""
-                    self.image_json['photos'].append(dict(part_id=type, part_desc=part_desc, part_title=part_title, photo_info=image_info_list))
+                    self.image_json['photos'].append(
+                        dict(part_id=type, part_desc=part_desc, part_title=part_title, photo_info=image_info_list))
 
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
@@ -274,8 +309,9 @@ class ConvertImage(object):
                 image_info_list = []
                 for image_name in img_list:
                     image = Image.open(os.path.join(path, image_name))
-                    image_info = self.resize_picture(image, image_name,image_info_dict, small_path, middle_path, small_url,
-                                                    middle_url, type)
+                    image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
+                                                     small_url,
+                                                     middle_url, type)
                     image_info_list.append(image_info)
                     pbar.update(1)
                 pbar.close()
@@ -291,6 +327,7 @@ class ConvertImage(object):
         # 结果保存为js文件
         with open('image_json.js', 'w', encoding='utf-8') as w:
             w.write(image_js)
+
 
 if __name__ == '__main__':
     pass

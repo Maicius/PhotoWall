@@ -14,6 +14,11 @@ def print_warning(info):
     print("不规范的文件行：", info)
     print("请严格按照配置文件填写：")
 
+def print_back_warning(info):
+    print(warning_begin)
+    print("警告：未发现背景图片，请检查背景图片路径")
+    print("路径地址：", info)
+
 def print_title_warning(info):
     print(warning_begin)
     print("照片信息文件的标题行填写格式不正确")
@@ -22,7 +27,7 @@ def print_title_warning(info):
     print("title#网页标题#副标题")
     print("title#小麦冬#详情请戳:www.xiaomaidong.com")
 
-def print_back_warning(info):
+def print_back_warning2(info):
     print(warning_begin)
     print("照片信息文件的背景图片行填写格式不正确")
     print(info)
