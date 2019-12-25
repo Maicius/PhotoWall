@@ -4,7 +4,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-image_dir", type=str, default="image/")
 parser.add_argument('-result_dir', type=str, default="image/")
-parser.add_argument("-request_dir", type=str, default="image/")
+parser.add_argument("-request_dir", type=str, default="")
 parser.add_argument("-photo_info", type=str, default="photo_info.txt")
 
 if __name__ == '__main__':
