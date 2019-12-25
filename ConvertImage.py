@@ -11,9 +11,6 @@ class ConvertImage(object):
     def __init__(self, debug=False):
         # 保存照片信息的json数组
         self.image_json = []
-        # 用于网页加载图片的url地址
-        # 这里也可以用相对地址，不加域名
-        self.request_base_dir = 'image/'
         self.small_url = ''
         self.middle_url = ''
         self.debug = debug
@@ -248,29 +245,36 @@ class ConvertImage(object):
                 dir_list.append(file)
         return img_list, dir_list
 
-    def do_convert_image(self, path, image_info="photo_info.txt", new_path=None, cls=1):
+    def do_convert_image(self, path, image_info="photo_info.txt", new_path=None, request_base_dir="image/"):
         """
         批量转换照片
         :param path: 原始照片地址
         :param new_path: 转换后的照片地址
         :return:
         """
+
         # 需要添加的照片信息
         image_info_dict = self.read_info(image_info, self.debug)
-        if new_path == None:
-            new_path = path
+        if new_path == None or len(new_path) == 0:
+            new_path = 'image/'
+
+        # 用于网页加载图片的url地址
+        # 这里也可以用相对地址，不加域名
+        self.request_base_dir = request_base_dir
+        if len(self.request_base_dir) == 0:
+            self.request_base_dir = new_path
         self.image_json = self.copy_info_from_image_dict(image_info_dict)
         self.image_json['photos'] = []
         # 检查背景图片
         back_img_list = image_info_dict['back']
         # 若用户未提供背景图片，使用默认背景图片
         if len(back_img_list) == 0:
-            default_back = list(map(lambda x: self.request_base_dir + x,
+            default_back = list(map(lambda x: os.path.join(self.request_base_dir, x),
                                     ["/back/back_1.jpg", "/back/back_2.jpg", "/back/back_3.jpg", "/back/back_4.jpg"]))
             self.image_json['back'] = default_back
         if 'days_back' in image_info_dict:
-            if  len(image_info_dict['days_back']) == 0:
-                self.image_json['days_back'] = self.request_base_dir + "/back/days.jpg"
+            if len(image_info_dict['days_back']) == 0:
+                self.image_json['days_back'] = os.path.join(self.request_base_dir, "/back/days.jpg")
             else:
                 back_img_list.append(image_info_dict['days_back'])
 
@@ -290,13 +294,14 @@ class ConvertImage(object):
                     # 转换后的图片保存的位置
                     small_path = os.path.join(img_dir, 'small')
                     middle_path = os.path.join(img_dir, 'middle')
-                    small_url = self.request_base_dir + files + '/small'
-                    middle_url = self.request_base_dir + files + '/middle'
+                    temp = os.path.join(self.request_base_dir, files)
+                    small_url = os.path.join(temp, 'small')
+                    middle_url = os.path.join(temp, 'middle')
                     type = files
                     img_list = util.get_file_list(old_img_dir)
                     img_list = self.sort_file(img_list)
                     img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
-                    print("处理文件夹:" + files + "...")
+                    print("\n处理文件夹:" + files + "...")
                     # 进度条
                     pbar = tqdm(total=len(img_list))
                     image_info_list = []
@@ -308,6 +313,7 @@ class ConvertImage(object):
                         image_info_list.append(image_info)
                         pbar.update(1)
                     pbar.close()
+
                     part_info = list(filter(lambda x: x['part_id'] == files, image_info_dict['part']))
                     if len(part_info) > 0:
                         part_title = part_info[0]['part_title']
@@ -326,13 +332,13 @@ class ConvertImage(object):
         # 一级目录的情况
         if len(root_img_list) > 0:
             try:
-                print("处理根目录...")
+                print("\n处理根目录...")
                 img_list = root_img_list
                 type = "root"
                 small_path = os.path.join(new_path, 'small')
                 middle_path = os.path.join(new_path, 'middle')
-                small_url = self.request_base_dir + 'small'
-                middle_url = self.request_base_dir + 'middle'
+                small_url = os.path.join(self.request_base_dir, 'small')
+                middle_url = os.path.join(self.request_base_dir, 'middle')
                 img_list = self.sort_file(img_list)
                 img_list = list(filter(lambda x: util.check_image_file_name(x), img_list))
                 pbar = tqdm(total=len(img_list))
@@ -345,7 +351,8 @@ class ConvertImage(object):
                     image_info_list.append(image_info)
                     pbar.update(1)
                 pbar.close()
-                self.image_json['photos'].append(dict(part_id=type, photo_info=image_info_list, part_title="others", part_desc=""))
+                self.image_json['photos'].append(
+                    dict(part_id=type, photo_info=image_info_list, part_title="others", part_desc=""))
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
                 if self.debug:
@@ -354,6 +361,7 @@ class ConvertImage(object):
         # 结果保存为js文件
         with open('image_json.js', 'w', encoding='utf-8') as w:
             w.write(image_js)
+
 
 if __name__ == '__main__':
     pass
