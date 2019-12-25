@@ -93,4 +93,6 @@ _trial_temp
 *.jpeg
 *.JPEG
 !0.jpg
+!back_*\.jpg
+!days.jpg
 
