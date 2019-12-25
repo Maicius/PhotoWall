@@ -46,5 +46,26 @@ class ConvertImageTest(unittest.TestCase):
         ci = ConvertImage(debug=True)
         ci.do_convert_image(file_path, new_path=new_path)
 
+    def test_split_name(self):
+        test1 = '1骑行.jpg'
+        test2 = '222骑行.png'
+        test3 = '222川藏线-骑行.jpg'
+        test4 = '川藏线.jpg'
+        test5 = '123.jpg'
+        test6 = '123test-desc.jpg'
+
+        res1, res11 = util.split_image_name(test1)
+        res2, res21 = util.split_image_name(test2)
+        res3, res31= util.split_image_name(test3)
+        res4, res41 = util.split_image_name(test4)
+        res5, res51 = util.split_image_name(test5)
+        res6, res61 = util.split_image_name(test6)
+        assert res1 == '骑行' and res11 == ''
+        assert res2 == '骑行' and res21 == ''
+        assert res3 == '川藏线' and res31 == '骑行'
+        assert res4 == '川藏线' and res41 == ''
+        assert res5 == '123' and res51 == ''
+        assert res6 == 'test' and res61 == 'desc'
+
 if __name__ =='__main__':
     unittest.main()

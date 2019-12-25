@@ -5,7 +5,7 @@ import json
 from copy import deepcopy
 import util
 from tqdm import tqdm
-
+import re
 
 class ConvertImage(object):
     def __init__(self, debug=False):
@@ -165,8 +165,10 @@ class ConvertImage(object):
             image_info['name'] = image_info_dict[image_key]['title']
             image_info['desc'] = image_info_dict[image_key]['desc']
         else:
-            image_info['name'] = image_name
-            image_info['desc'] = ''
+
+            image_title, image_desc = util.split_image_name(image_name)
+            image_info['desc'] = image_desc
+            image_info['name'] = image_title
 
         # 照片的分类
         image_info['type'] = type
@@ -220,17 +222,22 @@ class ConvertImage(object):
         return image_info_json
 
     def sort_file(self, file_list):
+        """
+        对文件名进行排序
+        :param file_list:
+        :return:
+        """
         file_list = list(sorted(file_list))
         index = -1
         for i, file in enumerate(file_list):
-            try:
-                file = int(file.split('.')[0])
-                index = i
-            except:
+            digits = re.findall(re.compile('^[0-9]+'), file.strip())
+            if not digits:
                 break
+            else:
+                index += 1
         index += 1
         last_file = file_list[index:]
-        pre_file = sorted(file_list[:index], key=lambda x: int(x.split('.')[0]))
+        pre_file = sorted(file_list[:index], key=lambda x: int(re.findall('^[0-9]+', x)[0]))
         pre_file.extend(last_file)
         return pre_file
 

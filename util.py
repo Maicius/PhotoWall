@@ -63,3 +63,19 @@ def get_file_list(path):
         file_list.remove(waste_file)
 
     return file_list
+
+def split_image_name(name):
+    """
+    传入照片名称，返回照片标题和描述
+    :param name:
+    :return:
+    """
+    name = name.split('.')[0]
+    image_name_list = name.split('-')
+    image_name = re.sub('^[0-9]+(?=[a-zA-Z\u4E00-\u9FA5]+)', '', image_name_list[0])
+    if len(image_name_list) > 1:
+        image_desc = image_name_list[1]
+    else:
+        image_desc = ''
+    return image_name, image_desc
+
