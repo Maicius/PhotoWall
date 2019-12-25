@@ -92,7 +92,7 @@ _trial_temp
 *.JPG
 *.jpeg
 *.JPEG
-!0.jpg
+!resource/image/*
 !back_*\.jpg
 !days.jpg
 
