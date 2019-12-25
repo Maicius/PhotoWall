@@ -1,4 +1,4 @@
-from src.ConvertImage import ConvertImage
+from ConvertImage import ConvertImage
 
 if __name__=='__main__':
     print("*******************照片转换程序***********************")
@@ -17,3 +17,6 @@ if __name__=='__main__':
     request_base_dir = input()
     ci = ConvertImage()
     ci.do_convert_image(file_path.strip(), new_path=new_path.strip(), request_base_dir=request_base_dir.strip())
+    print("批处理照片完成，请用浏览器打开PhotoWall.html即可查看照片墙")
+    print("按任意键离开程序...")
+    input()
