@@ -97,3 +97,5 @@ _trial_temp
 !days.jpg
 *.exe
 entry
+win_release
+mac_release
