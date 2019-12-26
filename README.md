@@ -17,9 +17,9 @@
 
 - 1.下载软件（注意区分macOS和windows）
 
-	> 下载地址一：(完整软件内测中)
+	> windows下载地址一：[百度云](https://pan.baidu.com/s/1gjpzD4MpffombWrcO-mdtg)
 
-	> 下载地址二：
+	> 下载地址二：[github]()
 
 - 2.将照片文件夹放到软件根目录下的image目录下（若放在其它路径需要在程序中指定，支持二级目录）
 
