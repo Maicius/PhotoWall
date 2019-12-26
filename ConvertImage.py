@@ -377,12 +377,18 @@ class ConvertImage(object):
                     image_info_list.append(image_info)
                     pbar.update(1)
                 pbar.close()
-                if len(dir_list) > 0:
+                part_info = list(filter(lambda x: x['part_id'] == type, image_info_dict['part']))
+                if len(part_info) > 0:
+                    part_title = part_info[0]['part_title']
+                    part_desc = part_info[0]['part_desc']
+                elif len(dir_list) > 0:
                     part_title = 'others'
+                    part_desc = ''
                 else:
                     part_title = ''
+                    part_desc = ''
                 self.image_json['photos'].append(
-                    dict(part_id=type, photo_info=image_info_list, part_title=part_title, part_desc=""))
+                    dict(part_id=type, photo_info=image_info_list, part_title=part_title, part_desc=part_desc))
             except BaseException as e:
                 print("转换照片出错, 请检查填写的文件路径")
                 if self.debug:
