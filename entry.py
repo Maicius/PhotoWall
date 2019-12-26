@@ -23,5 +23,5 @@ if __name__ == '__main__':
                         photo_info=args.photo_info)
     print("恭喜您，批处理照片完成！")
     print("请稍等5秒，若浏览器未自动打开，请手动使用浏览器打开PhotoWall.html...")
-    sleep(5)
+    sleep(3)
 
