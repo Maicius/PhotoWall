@@ -1,2 +1,2 @@
-start /wait entry.exe
-start "C:\Program Files\ (x86)\Google\Chrome\Application\chrome.exe" PhotoWall.html
+start /wait ImageConvertTool.exe
+start "C:\Program Files\ (x86)\Google\Chrome\Application\chrome.exe" index.html
