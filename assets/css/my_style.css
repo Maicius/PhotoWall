@@ -182,11 +182,17 @@ i {
     padding: 2px;
 }
 
-.middle_desc_text {
+.middle_desc_text_title {
     padding: 4px;
     width: 80%;
     margin: 10px auto;
     text-align: center;
+}
+.middle_desc_text {
+    padding: 4px;
+    width: 80%;
+    margin: 10px auto;
+    text-align: left;
 }
 
 .nav_footer {
