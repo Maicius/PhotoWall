@@ -144,7 +144,11 @@ class ConvertImage(object):
         # 获取缩略图
         small_image.thumbnail(small_shape, resample=Image.BICUBIC)
         # 保存小图文件
-        small_image.save(os.path.join(small_path, image_name))
+        try:
+            small_image.save(os.path.join(small_path, image_name))
+        except BaseException as e:
+            image_name = image_name + ".png"
+            small_image.save(os.path.join(small_path, image_name))
         # 保存小图的路径
         image_info['small'] = small_url + '/' + image_name
         # 保存小图的宽和高(加载网页时需要)
@@ -333,10 +337,14 @@ class ConvertImage(object):
                     image_info_list = []
                     for image_name in img_list:
                         image = Image.open(os.path.join(old_img_dir, image_name))
-                        image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
+                        try:
+                            image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
                                                          small_url,
                                                          middle_url, type)
-                        image_info_list.append(image_info)
+                            image_info_list.append(image_info)
+                        except BaseException as e:
+                            if self.debug:
+                                raise e
                         pbar.update(1)
                     pbar.close()
 
@@ -371,10 +379,14 @@ class ConvertImage(object):
                 image_info_list = []
                 for image_name in img_list:
                     image = Image.open(os.path.join(path, image_name))
-                    image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
-                                                     small_url,
-                                                     middle_url, type)
-                    image_info_list.append(image_info)
+                    try:
+                        image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
+                                                        small_url,
+                                                        middle_url, type)
+                        image_info_list.append(image_info)
+                    except BaseException as e:
+                        if self.debug:
+                            raise e
                     pbar.update(1)
                 pbar.close()
                 part_info = list(filter(lambda x: x['part_id'] == type, image_info_dict['part']))
@@ -390,7 +402,7 @@ class ConvertImage(object):
                 self.image_json['photos'].append(
                     dict(part_id=type, photo_info=image_info_list, part_title=part_title, part_desc=part_desc))
             except BaseException as e:
-                print("转换照片出错, 请检查填写的文件路径")
+                print("\n转换照片出错, 请检查填写的文件路径\n")
                 if self.debug:
                     raise e
         image_js = "var image_json = " + json.dumps(self.image_json, ensure_ascii=False) + ";"
