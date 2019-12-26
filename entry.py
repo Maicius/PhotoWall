@@ -22,6 +22,6 @@ if __name__ == '__main__':
     ci.do_convert_image(path=args.image_dir, new_path=args.result_dir, request_base_dir=args.request_dir,
                         photo_info=args.photo_info)
     print("恭喜您，批处理照片完成！")
-    print("请稍等5秒，若浏览器未自动打开，请手动使用浏览器打开PhotoWall.html...")
+    print("请稍等5秒，若浏览器未自动打开，请手动使用浏览器打开index.html...")
     sleep(3)
 
