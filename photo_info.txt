@@ -4,11 +4,13 @@ TITLE#小麦冬#不会骑车的摄影师不是好的程序猿
 //背景大照片，用于循环播放，建议4张左右
 BACK#back/back_1.jpg#back/back_2.jpg#back/back_3.jpg#back/back_4.jpg
 //用于显示在网页正中间的大字
-MID#小麦冬的照片墙
+MID#2019年度影集
 //第一部分，可无限添加
-PART骑行#骑行#
+PART骑行#骑行#回首向来萧瑟处，归去，也无风雨也无晴
 0.jpg#Test Title#Test Description 测试描述
 1.jpg#测试标题#我也不知道该写点啥
 PART其它#其它#随手拍
 0.jpg#Test Title#Test Description 测试描述
 1.jpg#Test Title#
+PARTroot#银杏#金色的秋天
+IMG_9600.jpg#银杏#一叶知秋
