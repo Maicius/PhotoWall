@@ -1,3 +1,4 @@
+
 var vm = avalon.define({
     $id: 'fuyuko',
     show_image_url: '',
@@ -10,19 +11,46 @@ var vm = avalon.define({
     sub_title: '',
     page_title: '2019年度影集',
     days_back: '',
+    group_show_visible : {},
+    cur_win_height: {},
     imageLayout: function () {
         vm.back_imgs = image_json.back;
         vm.start_date = image_json.days;
         vm.days_back = image_json.days_back;
         vm.web_title = image_json.title;
         vm.sub_title = image_json.sub_title;
-        vm.image_json = image_json.photos;
+        var tmp_img_json = image_json.photos;
         vm.page_title = image_json.page_title;
+        var index = 0;
+        for (var img in tmp_img_json) {
+            vm.group_show_visible[tmp_img_json[img].part_id] = false;
+            vm.cur_win_height[tmp_img_json[img].part_id] = $(window).height() + 40 * index;
+            index++;
+        }
+        // 默认展示最后一组照片
+        vm.group_show_visible[tmp_img_json[tmp_img_json.length - 1].part_id] = true;
+        vm.image_json = image_json.photos;
+    },
+
+    show_cur_group: function (group_id) {
+        // 改变照片组显示的状态
+        var pic = $('#' + group_id + 'section');
+        if (vm.group_show_visible[group_id]) {
+            pic.fadeOut({
+                duration: 200
+            });
+        } else {
+            pic.fadeIn({
+                duration: 200
+            });
+        }
+        vm.group_show_visible[group_id] = !vm.group_show_visible[group_id];
+        
     },
 
     //单击展示大图
     show_middle_image: function (img) {
-        console.log($(window).width());
+        // console.log($(window).width());
         if ($(window).width() > 720) {
             vm.show_image_url = "";
             var win_height;
@@ -100,7 +128,7 @@ $(document).ready(function () {
     });
     document.getElementById('middle_image').onload = function (e) {
         vm.load_image = false;
-    }
+    };
 
 });
 
@@ -118,7 +146,18 @@ function hide_image() {
     var pic = $('#middle_picture');
     pic.fadeOut({
         duration: 500
-    })
+    });
+}
+
+function change_image_group(group_id) {
+    var pic = $('#' + group_id + 'section');
+    console.log('pic', pic);
+    if (vm.group_show_visible[group_id]) {
+        pic.fadeOut({
+            duration: 500
+        });
+    }
+
 }
 
 function get_days() {

@@ -8,6 +8,8 @@
     <meta name="keywords" content=""/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" />
+
 </head>
 
 <body ms-controller="fuyuko">
@@ -18,7 +20,7 @@
             <div class="header-bar">
                 <nav class="navbar navbar-default">
                     <div class="navbar-header navbar-left">
-                        <h1><a class="navbar-brand brand_title" href="#">{{web_title}}</a></h1>
+                        <h1><a class="navbar-brand brand_title" href="http://www.xiaomaidong.com" target="_blank">{{web_title}}</a></h1>
                     </div>
                     <div class="navbar-right">
                         <span class="sub_title">{{sub_title}}</span>
@@ -46,11 +48,11 @@
 </div>
 <div class="wrapper">
     <!--ms-for: part_info in @image_json-->
-    <div class="span_text" ms-visible="part_info['photo_info'].length > 0">
+    <div class="nav nav-tabs my_nav span_text" ms-visible="part_info['photo_info'].length > 0"  ms-click="@show_cur_group(part_info.part_id)">
         <span class="part_title">{{part_info.part_title}}</span>
         <span class="part_desc">{{part_info.part_desc}}</span>
     </div>
-    <section>
+    <section ms-visible="@group_show_visible[part_info.part_id] == true" :attr="{id: part_info.part_id + 'section'}">
         <div ms-for="img in part_info['photo_info']" class="img_layout flex_img" :mouseenter="@show_photo_desc(img)"
              ms-mouseleave="@hide_photo_desc(img)"
              ms-css="{width: img.flex + 'px', 'flex-grow': img.flex}" ms-click="@show_middle_image(img)">
@@ -80,9 +82,9 @@
         <p><a href="#"> 小麦冬(xiaomaidong.com)&copy; 2019</a></p>
     </footer>
 
+<script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
 <!--booststrap-->
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
-
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
 <!--//booststrap end-->
 <!-- font-awesome icons -->

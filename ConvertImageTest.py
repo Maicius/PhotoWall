@@ -4,6 +4,7 @@ import os
 from ConvertImage import ConvertImage
 import util
 import json
+
 class ConvertImageTest(unittest.TestCase):
     def setUp(self) -> None:
         self.ci = ConvertImage(debug=True)
@@ -40,8 +41,8 @@ class ConvertImageTest(unittest.TestCase):
         self.ci.do_convert_image(image_dir, new_path="image/", photo_info="photo_info.txt")
 
     def test_do_convert_image_cls2(self):
-        # file_path = "/Users/maicius/照片/photo"
-        file_path = "image/"
+        file_path = "/Users/maicius/照片/photo"
+        # file_path = "image/"
         new_path = "image/"
         ci = ConvertImage(debug=True)
         ci.do_convert_image(file_path, new_path=new_path)
@@ -56,7 +57,7 @@ class ConvertImageTest(unittest.TestCase):
 
         res1, res11 = util.split_image_name(test1)
         res2, res21 = util.split_image_name(test2)
-        res3, res31= util.split_image_name(test3)
+        res3, res31 = util.split_image_name(test3)
         res4, res41 = util.split_image_name(test4)
         res5, res51 = util.split_image_name(test5)
         res6, res61 = util.split_image_name(test6)
@@ -76,5 +77,6 @@ class ConvertImageTest(unittest.TestCase):
         res3 = util.check_url_ip(str3)
         assert res1 == False and res2 == True and res3 == True
 
-if __name__ =='__main__':
+
+if __name__ == '__main__':
     unittest.main()

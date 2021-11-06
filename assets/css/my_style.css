@@ -55,7 +55,7 @@
     width: 90%;
     position: relative;
     border: 2px solid;
-    border-radius: 25px;
+    border-radius: 5px;
     margin: 10px auto;
 }
 
@@ -217,4 +217,13 @@ i {
 
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: none;
+}
+footer p a {
+    color: gray !important;
+}
+.my_nav {
+    min-height:40px;
+    border-top: 1px solid #ddd;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
 }
