@@ -53,7 +53,7 @@ def check_file_exist(path):
         os.makedirs(path)
 
 def check_image_file_name(name):
-    return re.match('.+\.(jpg|png|JPG|jpeg|JPEG|PNG|bmp|BMP)$', name) != None
+    return re.match('.+\.(jpg|png|JPG|jpeg|JPEG|PNG|bmp|BMP|HEIC)$', name) != None
 
 def get_file_list(path):
     waste_file = '.DS_Store'

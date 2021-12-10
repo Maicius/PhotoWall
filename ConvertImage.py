@@ -317,7 +317,8 @@ class ConvertImage(object):
         if len(dir_list) > 0:
             try:
                 file_list = dir_list
-                file_list = list(sorted(file_list))
+                img_digit_id = 0
+                file_list = list(sorted(file_list, reverse=True))
                 for files in file_list:
                     old_img_dir = os.path.join(path, files)
                     img_dir = os.path.join(new_path, files)
@@ -336,11 +337,15 @@ class ConvertImage(object):
                     pbar = tqdm(total=len(img_list))
                     image_info_list = []
                     for image_name in img_list:
+                        img_digit_id += 1
                         image = Image.open(os.path.join(old_img_dir, image_name))
                         try:
                             image_info = self.resize_picture(image, image_name, image_info_dict, small_path, middle_path,
                                                          small_url,
                                                          middle_url, type)
+
+                            print('uniq_id:', img_digit_id)
+                            image_info['uniq_id'] = img_digit_id
                             image_info_list.append(image_info)
                         except BaseException as e:
                             if self.debug:

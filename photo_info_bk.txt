@@ -1,0 +1,14 @@
+//照片信息模板，二级目录，即照片有分类
+//符号#为分隔符，正文填写中请勿出现该符号
+TITLE#小麦冬#不会骑车的摄影师不是好的程序猿
+//背景大照片，用于循环播放，建议4张左右
+BACK#back/back_1.jpg#back/back_2.jpg#back/back_3.jpg#back/back_4.jpg
+//用于显示在网页正中间的大字
+MID#选调影集
+DAYS#back/back_5.png#2021/08/12
+//第一部分，可无限添加
+PART1#骑行#回首向来萧瑟处，归去，也无风雨也无晴
+0.jpg#Test Title#Test Description 测试描述
+PART2#纪实#不知道怎么分类的照片都叫纪实吧
+0.jpg#Test Title#Test Description 测试描述
+1.jpg#Test Title#
